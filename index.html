@@ -1,148 +1,337 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <title>Реалистичная VR сцена</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe-environment-component/1.3.2/aframe-environment-component.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe-extras/6.1.1/aframe-extras.min.js"></script>
-  
-  <script>
-    // Компонент для плавного вращения объекта
-    AFRAME.registerComponent('rotate-animation', {
-      schema: {
-        speed: {type: 'number', default: 1}
-      },
-      tick: function (time, deltaTime) {
-        const rotationSpeed = this.data.speed * (deltaTime / 1000);
-        const currentRotation = this.el.object3D.rotation;
-        this.el.object3D.rotation.set(
-          currentRotation.x,
-          currentRotation.y + rotationSpeed,
-          currentRotation.z
-        );
-      }
-    });
-    
-    // Компонент для интерактивности
-    AFRAME.registerComponent('change-color-on-hover', {
-      init: function () {
-        const el = this.el;
-        const originalColor = el.getAttribute('material').color;
-        
-        el.addEventListener('mouseenter', function () {
-          el.setAttribute('material', 'color', '#FF6B6B');
-          el.setAttribute('animation__scale', {
-            property: 'scale',
-            to: '1.2 1.2 1.2',
-            dur: 300,
-            easing: 'easeOutQuad'
-          });
-        });
-        
-        el.addEventListener('mouseleave', function () {
-          el.setAttribute('material', 'color', originalColor);
-          el.setAttribute('animation__scale', {
-            property: 'scale',
-            to: '1 1 1',
-            dur: 300,
-            easing: 'easeOutQuad'
-          });
-        });
-      }
-    });
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mersel Premium - Визовая поддержка и туризм</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body>
-  <a-scene>
-    <!-- Реалистичное окружение -->
-    <a-entity environment="preset: forest; lighting: false; shadow: true; lightPosition: 1 5 -2; ground: hills; groundColor: #402A04; groundColor2: #593B17; dressingAmount: 500; grid: none;"></a-entity>
-    
-    <!-- Освещение -->
-    <a-entity light="type: ambient; color: #BBB; intensity: 0.5"></a-entity>
-    <a-entity light="type: directional; color: #FFF; intensity: 1.2; castShadow: true" position="1 5 -2"></a-entity>
-    <a-entity light="type: point; color: #FFE8C9; intensity: 0.8; distance: 20" position="-1 6 -3"></a-entity>
-    
-    <!-- Реалистичный дом -->
-    <a-entity position="0 0 -8">
-      <!-- Основа дома -->
-      <a-box width="5" height="3" depth="4" material="shader: standard; roughness: 0.7; metalness: 0.1; src: https://cdnjs.cloudflare.com/ajax/libs/3dmodels/1.0.0/textures/brick/brick_diffuse.jpg; repeat: 5 3" shadow></a-box>
-      
-      <!-- Крыша -->
-      <a-entity position="0 2 0" rotation="0 0 0">
-        <a-box width="6" height="0.2" depth="5" position="0 0.5 0" material="shader: standard; roughness: 0.9; metalness: 0.1; color: #4A3B2A" shadow></a-box>
-        <a-entity position="0 0.6 0">
-          <a-box width="6" height="1.5" depth="5" scale="1 1 1" material="shader: standard; roughness: 0.9; metalness: 0.1; color: #4A3B2A" geometry="primitive: box; width: 6; height: 1.5; depth: 5"
-                 position="0 0.75 0" shadow></a-box>
-        </a-entity>
-      </a-entity>
-      
-      <!-- Дверь -->
-      <a-entity position="0 0 2.01" rotation="0 0 0">
-        <a-box width="1" height="2" depth="0.1" material="shader: standard; roughness: 0.5; metalness: 0.1; color: #5C4033" shadow></a-box>
-        <a-sphere position="0.35 0 0" radius="0.05" material="shader: standard; roughness: 0.2; metalness: 0.8; color: #DDDDDD" shadow></a-sphere>
-      </a-entity>
-      
-      <!-- Окна -->
-      <a-entity position="-1.5 0.5 2.01">
-        <a-box width="1" height="1" depth="0.1" material="shader: standard; roughness: 0.2; metalness: 0.1; color: #AADDFF; opacity: 0.9" shadow></a-box>
-        <a-box width="1.1" height="1.1" depth="0.05" material="shader: standard; roughness: 0.5; metalness: 0.1; color: #FFFFFF" shadow></a-box>
-      </a-entity>
-      
-      <a-entity position="1.5 0.5 2.01">
-        <a-box width="1" height="1" depth="0.1" material="shader: standard; roughness: 0.2; metalness: 0.1; color: #AADDFF; opacity: 0.9" shadow></a-box>
-        <a-box width="1.1" height="1.1" depth="0.05" material="shader: standard; roughness: 0.5; metalness: 0.1; color: #FFFFFF" shadow></a-box>
-      </a-entity>
-    </a-entity>
-    
-    <!-- Дерево -->
-    <a-entity position="5 0 -6">
-      <a-cylinder height="4" radius="0.3" material="shader: standard; roughness: 0.9; metalness: 0.1; src: https://cdnjs.cloudflare.com/ajax/libs/3dmodels/1.0.0/textures/wood/wood_texture.jpg" position="0 2 0" shadow></a-cylinder>
-      <a-entity position="0 4.5 0">
-        <a-cone height="4" radius-bottom="2" radius-top="0" material="shader: standard; roughness: 0.8; metalness: 0; color: #1B512D" shadow></a-cone>
-      </a-entity>
-    </a-entity>
-    
-    <!-- Камень -->
-    <a-entity position="-4 0.6 -5">
-      <a-sphere radius="1" material="shader: standard; roughness: 0.9; metalness: 0.1; color: #777777" shadow change-color-on-hover></a-sphere>
-    </a-entity>
-    
-    <!-- Вода (озеро) -->
-    <a-entity position="0 0.1 -15">
-      <a-circle radius="7" rotation="-90 0 0" material="shader: standard; roughness: 0.1; metalness: 0.6; color: #3079B4; opacity: 0.9"></a-circle>
-    </a-entity>
-    
-    <!-- Интерактивная сфера -->
-    <a-entity position="-2 1 -4">
-      <a-sphere radius="0.5" material="shader: standard; roughness: 0.3; metalness: 0.8; color: #4285F4" shadow change-color-on-hover rotate-animation="speed: 0.5"></a-sphere>
-    </a-entity>
-    
-    <!-- Камера с управлением движением -->
-    <a-entity position="0 1.6 2" movement-controls="fly: true; speed: 0.2">
-      <a-entity camera look-controls wasd-controls position="0 0 0">
-        <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"
-                  geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.02"
-                  material="color: white; shader: flat"
-                  animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1"
-                  animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 1500; from: 1 1 1; to: 0.1 0.1 0.1"
-                  animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1">
-        </a-entity>
-      </a-entity>
-    </a-entity>
-    
-    <!-- Птицы в небе -->
-    <a-entity position="0 15 -10">
-      <a-entity position="-5 0 0" animation="property: position; to: 5 2 -5; dur: 12000; easing: linear; loop: true">
-        <a-entity geometry="primitive: triangle; vertexA: 0 0 0; vertexB: -0.5 -0.25 0; vertexC: 0.5 -0.25 0" material="shader: flat; color: #000"></a-entity>
-      </a-entity>
-      <a-entity position="3 1 2" animation="property: position; to: -7 3 -3; dur: 14000; easing: linear; loop: true">
-        <a-entity geometry="primitive: triangle; vertexA: 0 0 0; vertexB: -0.4 -0.2 0; vertexC: 0.4 -0.2 0" material="shader: flat; color: #000"></a-entity>
-      </a-entity>
-      <a-entity position="0 -1 -2" animation="property: position; to: -10 1 -8; dur: 13000; easing: linear; loop: true">
-        <a-entity geometry="primitive: triangle; vertexA: 0 0 0; vertexB: -0.3 -0.15 0; vertexC: 0.3 -0.15 0" material="shader: flat; color: #000"></a-entity>
-      </a-entity>
-    </a-entity>
-  </a-scene>
+    <!-- Переключатель темы -->
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Хедер -->
+    <header class="header">
+        <div class="container">
+            <div class="header-container">
+                <div class="logo shine">
+                    <img src="images/logo.png" alt="Mersel Premium Logo" class="logo-img">
+                </div>
+                <nav class="nav">
+                    <a href="index.html" class="active">Главная</a>
+                    <a href="services.html">Услуги</a>
+                    <a href="visas.html">Визы</a>
+                    <a href="tours.html">Туры</a>
+                    <a href="news.html">Новости</a>
+                    <a href="about.html">О нас</a>
+                    <a href="contacts.html">Контакты</a>
+                    <a href="booking.html" class="btn">Оставить заявку</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Баннер/Герой -->
+    <section class="hero">
+        <div class="hero-overlay">
+            <div class="hero-container container">
+                <h1>Ваш надежный партнер в мире путешествий</h1>
+                <p>Профессиональная визовая поддержка и эксклюзивные туристические маршруты от компании Mersel Premium</p>
+                <div class="hero-buttons">
+                    <a href="services.html" class="primary-btn">Наши услуги</a>
+                    <a href="contacts.html" class="secondary-btn">Связаться с нами</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section class="about">
+        <div class="container">
+            <h2>Почему выбирают Mersel Premium</h2>
+            <p class="section-description">Мы предоставляем полный спектр услуг для комфортного путешествия</p>
+            
+            <div class="about-grid">
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h4>Гарантия результата</h4>
+                    <p>98% одобренных виз и довольных клиентов</p>
+                </div>
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h4>Экономия времени</h4>
+                    <p>Быстрое оформление документов без лишних хлопот</p>
+                </div>
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h4>Профессионализм</h4>
+                    <p>Команда опытных специалистов с международной сертификацией</p>
+                </div>
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h4>Глобальный охват</h4>
+                    <p>Работаем с консульствами более 60 стран мира</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуги -->
+    <section class="services">
+        <div class="container">
+            <h2>Наши услуги</h2>
+            <p class="section-description">Мы помогаем клиентам осуществить путешествие мечты</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-passport"></i>
+                    </div>
+                    <h3>Визовая поддержка</h3>
+                    <p>Профессиональная помощь в оформлении виз в любую страну мира</p>
+                    <ul class="service-list">
+                        <li>Туристические визы</li>
+                        <li>Бизнес визы</li>
+                        <li>Студенческие визы</li>
+                        <li>Рабочие визы</li>
+                    </ul>
+                    <a href="services.html#visas" class="secondary-btn small-btn">Подробнее</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-plane-departure"></i>
+                    </div>
+                    <h3>Туристические пакеты</h3>
+                    <p>Полностью организованные туры с проживанием и экскурсиями</p>
+                    <ul class="service-list">
+                        <li>Пляжный отдых</li>
+                        <li>Экскурсионные туры</li>
+                        <li>Горнолыжные курорты</li>
+                        <li>Экзотические направления</li>
+                    </ul>
+                    <a href="services.html#tours" class="secondary-btn small-btn">Подробнее</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Бизнес-поездки</h3>
+                    <p>Организация деловых путешествий с учетом всех требований</p>
+                    <ul class="service-list">
+                        <li>Бронирование отелей</li>
+                        <li>Трансферы и транспорт</li>
+                        <li>Организация встреч</li>
+                        <li>VIP-обслуживание</li>
+                    </ul>
+                    <a href="services.html#business" class="secondary-btn small-btn">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Популярные направления -->
+    <section class="business-categories">
+        <div class="container">
+            <h2>Популярные направления</h2>
+            <p class="section-description">Исследуйте самые востребованные направления для путешествий</p>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <img src="images/destinations/europe.jpg" alt="Европа" class="category-img">
+                    <h3>Европа</h3>
+                    <p>Окунитесь в богатую историю и культуру европейских стран</p>
+                    <a href="destinations.html#europe" class="secondary-btn">Подробнее</a>
+                </div>
+                
+                <div class="category-card">
+                    <img src="images/destinations/asia.jpg" alt="Азия" class="category-img">
+                    <h3>Азия</h3>
+                    <p>Познакомьтесь с удивительными традициями восточных стран</p>
+                    <a href="destinations.html#asia" class="secondary-btn">Подробнее</a>
+                </div>
+                
+                <div class="category-card">
+                    <img src="images/destinations/america.jpg" alt="Америка" class="category-img">
+                    <h3>Америка</h3>
+                    <p>Насладитесь разнообразием природы и городов Нового Света</p>
+                    <a href="destinations.html#america" class="secondary-btn">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Отзывы -->
+    <section class="testimonials">
+        <div class="container">
+            <h2>Отзывы наших клиентов</h2>
+            <p class="section-description">Что говорят о нас те, кто уже воспользовался нашими услугами</p>
+            
+            <div class="testimonials-slider" id="testimonialsSlider">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Благодаря Mersel Premium моя семья получила визы в Испанию без единой проблемы. Все документы были правильно подготовлены, сотрудники всегда были на связи и отвечали на все вопросы."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/testimonials/client1.jpg" alt="Анна К." class="testimonial-img">
+                        <div class="author-info">
+                            <h4>Анна К.</h4>
+                            <p>Москва</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Обратился за помощью в оформлении бизнес-визы в США. Профессионально подготовили все документы и провели детальную консультацию перед собеседованием. Результат — виза на 3 года!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/testimonials/client2.jpg" alt="Дмитрий В." class="testimonial-img">
+                        <div class="author-info">
+                            <h4>Дмитрий В.</h4>
+                            <p>Санкт-Петербург</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Организовали для нас великолепный тур по странам Азии. Все было продумано до мелочей — от трансферов до экскурсий. Отдельная благодарность гиду, который показал нам не только туристические места, но и местный колорит."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/testimonials/client3.jpg" alt="Елена и Сергей М." class="testimonial-img">
+                        <div class="author-info">
+                            <h4>Елена и Сергей М.</h4>
+                            <p>Екатеринбург</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonials-controls">
+                <button class="control-prev" id="prevTestimonial"><i class="fas fa-chevron-left"></i></button>
+                <div class="testimonials-dots" id="testimonialsDots"></div>
+                <button class="control-next" id="nextTestimonial"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Последние новости -->
+    <section class="latest-news">
+        <div class="container">
+            <h2>Последние новости</h2>
+            <p class="section-description">Будьте в курсе последних обновлений и акций</p>
+            
+            <div class="news-grid">
+                <div class="news-card">
+                    <img src="images/news/news1.jpg" alt="Новые правила въезда в Шенген" class="news-img">
+                    <div class="news-date">15 апреля 2025</div>
+                    <h3>Новые правила въезда в Шенген</h3>
+                    <p>С 1 июня 2025 года вступают в силу новые правила въезда в страны Шенгенского соглашения...</p>
+                    <a href="news.html#news1" class="read-more">Читать далее</a>
+                </div>
+                
+                <div class="news-card">
+                    <img src="images/news/news2.jpg" alt="Специальные предложения на летний сезон" class="news-img">
+                    <div class="news-date">3 апреля 2025</div>
+                    <h3>Специальные предложения на летний сезон</h3>
+                    <p>Mersel Premium предлагает эксклюзивные скидки на туры в Грецию, Испанию и Италию...</p>
+                    <a href="news.html#news2" class="read-more">Читать далее</a>
+                </div>
+                
+                <div class="news-card">
+                    <img src="images/news/news3.jpg" alt="Открытие нового офиса" class="news-img">
+                    <div class="news-date">25 марта 2025</div>
+                    <h3>Открытие нового офиса</h3>
+                    <p>Мы рады сообщить об открытии нашего нового офиса в центре города для удобства клиентов...</p>
+                    <a href="news.html#news3" class="read-more">Читать далее</a>
+                </div>
+            </div>
+            
+            <div class="section-footer">
+                <a href="news.html" class="primary-btn">Все новости</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container cta-container">
+            <h2>Готовы отправиться в путешествие мечты?</h2>
+            <p>Оставьте заявку сейчас и наши специалисты свяжутся с вами в ближайшее время для подбора оптимального решения</p>
+            <a href="booking.html" class="primary-btn">Оставить заявку</a>
+        </div>
+    </section>
+
+    <!-- Партнеры -->
+    <section class="partners">
+        <div class="container">
+            <h2>Наши партнеры</h2>
+            <div class="partners-slider">
+                <div class="partner"><img src="images/partners/partner1.png" alt="Партнер 1"></div>
+                <div class="partner"><img src="images/partners/partner2.png" alt="Партнер 2"></div>
+                <div class="partner"><img src="images/partners/partner3.png" alt="Партнер 3"></div>
+                <div class="partner"><img src="images/partners/partner4.png" alt="Партнер 4"></div>
+                <div class="partner"><img src="images/partners/partner5.png" alt="Партнер 5"></div>
+                <div class="partner"><img src="images/partners/partner6.png" alt="Партнер 6"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="images/logo-white.png" alt="Mersel Premium" class="logo-img">
+                    <p>Ваш надежный партнер в мире визовых услуг и туризма</p>
+                </div>
+                
+                <div class="footer-nav">
+                    <a href="index.html">Главная</a>
+                    <a href="services.html">Услуги</a>
+                    <a href="visas.html">Визы</a>
+                    <a href="tours.html">Туры</a>
+                    <a href="news.html">Новости</a>
+                    <a href="about.html">О нас</a>
+                    <a href="contacts.html">Контакты</a>
+                </div>
+                
+                <div class="footer-contact">
+                    <p><i class="fas fa-map-marker-alt"></i> Москва, ул. Арбат, 12, офис 310</p>
+                    <p><i class="fas fa-phone"></i> +7 (495) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@merselpremium.ru</p>
+                </div>
+                
+                <div class="footer-socials">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Mersel Premium. Все права защищены.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
